@@ -1,26 +1,24 @@
-package errors_test
+package errors
 
 import (
 	"fmt"
-
-	"github.com/pkg/errors"
 )
 
 func ExampleNew() {
-	err := errors.New("whoops")
+	err := New("whoops")
 	fmt.Println(err)
 
 	// Output: whoops
 }
 
 func ExampleNew_printf() {
-	err := errors.New("whoops")
+	err := New("whoops")
 	fmt.Printf("%+v", err)
 
 	// Example output:
 	// whoops
-	// github.com/pkg/errors_test.ExampleNew_printf
-	//         /home/dfc/src/github.com/pkg/errors/example_test.go:17
+	// github.com/haroldbouley/pkgerrors_test.ExampleNew_printf
+	//         /home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:17
 	// testing.runExample
 	//         /home/dfc/go/src/testing/example.go:114
 	// testing.RunExamples
@@ -28,7 +26,7 @@ func ExampleNew_printf() {
 	// testing.(*M).Run
 	//         /home/dfc/go/src/testing/testing.go:744
 	// main.main
-	//         /github.com/pkg/errors/_test/_testmain.go:106
+	//         /github.com/haroldbouley/pkgerrors/_test/_testmain.go:106
 	// runtime.main
 	//         /home/dfc/go/src/runtime/proc.go:183
 	// runtime.goexit
@@ -36,30 +34,30 @@ func ExampleNew_printf() {
 }
 
 func ExampleWithMessage() {
-	cause := errors.New("whoops")
-	err := errors.WithMessage(cause, "oh noes")
+	cause := New("whoops")
+	err := WithMessage(cause, "oh noes")
 	fmt.Println(err)
 
 	// Output: oh noes: whoops
 }
 
 func ExampleWithStack() {
-	cause := errors.New("whoops")
-	err := errors.WithStack(cause)
+	cause := New("whoops")
+	err := WithStack(cause)
 	fmt.Println(err)
 
 	// Output: whoops
 }
 
 func ExampleWithStack_printf() {
-	cause := errors.New("whoops")
-	err := errors.WithStack(cause)
+	cause := New("whoops")
+	err := WithStack(cause)
 	fmt.Printf("%+v", err)
 
 	// Example Output:
 	// whoops
-	// github.com/pkg/errors_test.ExampleWithStack_printf
-	//         /home/fabstu/go/src/github.com/pkg/errors/example_test.go:55
+	// github.com/haroldbouley/pkgerrors_test.ExampleWithStack_printf
+	//         /home/fabstu/go/src/github.com/haroldbouley/pkgerrors/example_test.go:55
 	// testing.runExample
 	//         /usr/lib/go/src/testing/example.go:114
 	// testing.RunExamples
@@ -67,13 +65,13 @@ func ExampleWithStack_printf() {
 	// testing.(*M).Run
 	//         /usr/lib/go/src/testing/testing.go:744
 	// main.main
-	//         github.com/pkg/errors/_test/_testmain.go:106
+	//         github.com/haroldbouley/pkgerrors/_test/_testmain.go:106
 	// runtime.main
 	//         /usr/lib/go/src/runtime/proc.go:183
 	// runtime.goexit
 	//         /usr/lib/go/src/runtime/asm_amd64.s:2086
-	// github.com/pkg/errors_test.ExampleWithStack_printf
-	//         /home/fabstu/go/src/github.com/pkg/errors/example_test.go:56
+	// github.com/haroldbouley/pkgerrors_test.ExampleWithStack_printf
+	//         /home/fabstu/go/src/github.com/haroldbouley/pkgerrors/example_test.go:56
 	// testing.runExample
 	//         /usr/lib/go/src/testing/example.go:114
 	// testing.RunExamples
@@ -81,7 +79,7 @@ func ExampleWithStack_printf() {
 	// testing.(*M).Run
 	//         /usr/lib/go/src/testing/testing.go:744
 	// main.main
-	//         github.com/pkg/errors/_test/_testmain.go:106
+	//         github.com/haroldbouley/pkgerrors/_test/_testmain.go:106
 	// runtime.main
 	//         /usr/lib/go/src/runtime/proc.go:183
 	// runtime.goexit
@@ -89,24 +87,24 @@ func ExampleWithStack_printf() {
 }
 
 func ExampleWrap() {
-	cause := errors.New("whoops")
-	err := errors.Wrap(cause, "oh noes")
+	cause := New("whoops")
+	err := Wrap(cause, "oh noes")
 	fmt.Println(err)
 
 	// Output: oh noes: whoops
 }
 
 func fn() error {
-	e1 := errors.New("error")
-	e2 := errors.Wrap(e1, "inner")
-	e3 := errors.Wrap(e2, "middle")
-	return errors.Wrap(e3, "outer")
+	e1 := New("error")
+	e2 := Wrap(e1, "inner")
+	e3 := Wrap(e2, "middle")
+	return Wrap(e3, "outer")
 }
 
 func ExampleCause() {
 	err := fn()
 	fmt.Println(err)
-	fmt.Println(errors.Cause(err))
+	fmt.Println(Cause(err))
 
 	// Output: outer: middle: inner: error
 	// error
@@ -118,10 +116,10 @@ func ExampleWrap_extended() {
 
 	// Example output:
 	// error
-	// github.com/pkg/errors_test.fn
-	//         /home/dfc/src/github.com/pkg/errors/example_test.go:47
-	// github.com/pkg/errors_test.ExampleCause_printf
-	//         /home/dfc/src/github.com/pkg/errors/example_test.go:63
+	// github.com/haroldbouley/pkgerrors_test.fn
+	//         /home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:47
+	// github.com/haroldbouley/pkgerrors_test.ExampleCause_printf
+	//         /home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:63
 	// testing.runExample
 	//         /home/dfc/go/src/testing/example.go:114
 	// testing.RunExamples
@@ -129,35 +127,35 @@ func ExampleWrap_extended() {
 	// testing.(*M).Run
 	//         /home/dfc/go/src/testing/testing.go:744
 	// main.main
-	//         /github.com/pkg/errors/_test/_testmain.go:104
+	//         /github.com/haroldbouley/pkgerrors/_test/_testmain.go:104
 	// runtime.main
 	//         /home/dfc/go/src/runtime/proc.go:183
 	// runtime.goexit
 	//         /home/dfc/go/src/runtime/asm_amd64.s:2059
-	// github.com/pkg/errors_test.fn
-	// 	  /home/dfc/src/github.com/pkg/errors/example_test.go:48: inner
-	// github.com/pkg/errors_test.fn
-	//        /home/dfc/src/github.com/pkg/errors/example_test.go:49: middle
-	// github.com/pkg/errors_test.fn
-	//      /home/dfc/src/github.com/pkg/errors/example_test.go:50: outer
+	// github.com/haroldbouley/pkgerrors_test.fn
+	// 	  /home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:48: inner
+	// github.com/haroldbouley/pkgerrors_test.fn
+	//        /home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:49: middle
+	// github.com/haroldbouley/pkgerrors_test.fn
+	//      /home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:50: outer
 }
 
 func ExampleWrapf() {
-	cause := errors.New("whoops")
-	err := errors.Wrapf(cause, "oh noes #%d", 2)
+	cause := New("whoops")
+	err := Wrapf(cause, "oh noes #%d", 2)
 	fmt.Println(err)
 
 	// Output: oh noes #2: whoops
 }
 
 func ExampleErrorf_extended() {
-	err := errors.Errorf("whoops: %s", "foo")
+	err := Errorf("whoops: %s", "foo")
 	fmt.Printf("%+v", err)
 
 	// Example output:
 	// whoops: foo
-	// github.com/pkg/errors_test.ExampleErrorf
-	//         /home/dfc/src/github.com/pkg/errors/example_test.go:101
+	// github.com/haroldbouley/pkgerrors_test.ExampleErrorf
+	//         /home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:101
 	// testing.runExample
 	//         /home/dfc/go/src/testing/example.go:114
 	// testing.RunExamples
@@ -165,7 +163,7 @@ func ExampleErrorf_extended() {
 	// testing.(*M).Run
 	//         /home/dfc/go/src/testing/testing.go:744
 	// main.main
-	//         /github.com/pkg/errors/_test/_testmain.go:102
+	//         /github.com/haroldbouley/pkgerrors/_test/_testmain.go:102
 	// runtime.main
 	//         /home/dfc/go/src/runtime/proc.go:183
 	// runtime.goexit
@@ -174,10 +172,10 @@ func ExampleErrorf_extended() {
 
 func Example_stackTrace() {
 	type stackTracer interface {
-		StackTrace() errors.StackTrace
+		StackTrace() StackTrace
 	}
 
-	err, ok := errors.Cause(fn()).(stackTracer)
+	err, ok := Cause(fn()).(stackTracer)
 	if !ok {
 		panic("oops, err does not implement stackTracer")
 	}
@@ -186,16 +184,16 @@ func Example_stackTrace() {
 	fmt.Printf("%+v", st[0:2]) // top two frames
 
 	// Example output:
-	// github.com/pkg/errors_test.fn
-	//	/home/dfc/src/github.com/pkg/errors/example_test.go:47
-	// github.com/pkg/errors_test.Example_stackTrace
-	//	/home/dfc/src/github.com/pkg/errors/example_test.go:127
+	// github.com/haroldbouley/pkgerrors_test.fn
+	//	/home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:47
+	// github.com/haroldbouley/pkgerrors_test.Example_stackTrace
+	//	/home/dfc/src/github.com/haroldbouley/pkgerrors/example_test.go:127
 }
 
 func ExampleCause_printf() {
-	err := errors.Wrap(func() error {
+	err := Wrap(func() error {
 		return func() error {
-			return errors.New("hello world")
+			return New("hello world")
 		}()
 	}(), "failed")
 
