@@ -100,9 +100,13 @@ import (
 // New returns an error with the supplied message.
 // New also records the stack trace at the point it was called.
 func New(message string) error {
+	return NewSkip(message, 1)
+}
+
+func NewSkip(message string, skip int) error {
 	return &fundamental{
 		msg:   message,
-		stack: callers(),
+		stack: callers(3 + skip),
 	}
 }
 
@@ -110,9 +114,13 @@ func New(message string) error {
 // as a value that satisfies error.
 // Errorf also records the stack trace at the point it was called.
 func Errorf(format string, args ...interface{}) error {
+	return ErrorfSkip(1, format, args...)
+}
+
+func ErrorfSkip(skip int, format string, args ...interface{}) error {
 	return &fundamental{
 		msg:   fmt.Sprintf(format, args...),
-		stack: callers(),
+		stack: callers(3 + skip),
 	}
 }
 
@@ -143,12 +151,16 @@ func (f *fundamental) Format(s fmt.State, verb rune) {
 // WithStack annotates err with a stack trace at the point WithStack was called.
 // If err is nil, WithStack returns nil.
 func WithStack(err error) error {
+	return WithStackSkip(err, 1)
+}
+
+func WithStackSkip(err error, skip int) error {
 	if err == nil {
 		return nil
 	}
 	return &withStack{
 		err,
-		callers(),
+		callers(3 + skip),
 	}
 }
 
@@ -182,6 +194,10 @@ func (w *withStack) Format(s fmt.State, verb rune) {
 // at the point Wrap is called, and the supplied message.
 // If err is nil, Wrap returns nil.
 func Wrap(err error, message string) error {
+	return WrapSkip(err, message, 1)
+}
+
+func WrapSkip(err error, message string, skip int) error {
 	if err == nil {
 		return nil
 	}
@@ -191,7 +207,7 @@ func Wrap(err error, message string) error {
 	}
 	return &withStack{
 		err,
-		callers(),
+		callers(3 + skip),
 	}
 }
 
@@ -199,6 +215,10 @@ func Wrap(err error, message string) error {
 // at the point Wrapf is called, and the format specifier.
 // If err is nil, Wrapf returns nil.
 func Wrapf(err error, format string, args ...interface{}) error {
+	return WrapfSkip(err, 1, format, args...)
+}
+
+func WrapfSkip(err error, skip int, format string, args ...interface{}) error {
 	if err == nil {
 		return nil
 	}
@@ -208,7 +228,7 @@ func Wrapf(err error, format string, args ...interface{}) error {
 	}
 	return &withStack{
 		err,
-		callers(),
+		callers(3 + skip),
 	}
 }
 
