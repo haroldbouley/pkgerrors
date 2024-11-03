@@ -1,6 +1,6 @@
-# errors
+# pkgerrors
 
-Package errors provides simple error handling primitives.
+Package pkgerrors provides simple error handling primitives. It is originally forked from the largely used but archived pkg/errors repository; the only functional change from the original is to enable users to specify how much lines they wish to skip in the callers stack as requested in https://github.com/pkg/errors/issues/129
 
 `go get github.com/haroldbouley/pkgerrors`
 
