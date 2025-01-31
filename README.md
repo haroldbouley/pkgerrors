@@ -2,6 +2,7 @@
 
 Package pkgerrors provides simple error handling primitives. It is originally forked from the largely used but archived pkg/errors repository. The following changes from the original have been made:
 - Enable users to specify how much lines they wish to skip in the callers stack as requested in https://github.com/pkg/errors/issues/129
+- Add exported interface for errors containing a stack trace
 
 `go get github.com/haroldbouley/pkgerrors`
 
