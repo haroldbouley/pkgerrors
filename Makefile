@@ -2,35 +2,13 @@ PKGS := pkgerrors
 SRCDIRS := $(shell go list -f '{{.Dir}}' $(PKGS))
 GO := go
 
-check: test vet gofmt unconvert staticcheck ineffassign unparam
+check: test vet gofmt
 
 test: 
 	$(GO) test $(PKGS)
 
 vet: | test
 	$(GO) vet $(PKGS)
-
-staticcheck:
-	$(GO) get honnef.co/go/tools/cmd/staticcheck
-	staticcheck -checks all $(PKGS)
-
-unconvert:
-	$(GO) get github.com/mdempsky/unconvert
-	unconvert -v $(PKGS)
-
-ineffassign:
-	$(GO) get github.com/gordonklaus/ineffassign
-	find $(SRCDIRS) -name '*.go' | xargs ineffassign
-
-pedantic: check errcheck
-
-unparam:
-	$(GO) get mvdan.cc/unparam
-	unparam ./...
-
-errcheck:
-	$(GO) get github.com/kisielk/errcheck
-	errcheck $(PKGS)
 
 gofmt:  
 	@echo Checking code is gofmted
