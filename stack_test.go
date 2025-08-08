@@ -33,7 +33,7 @@ func TestFrameFormat(t *testing.T) {
 		initpc,
 		"%+s",
 		packageName + ".init\n" +
-			"\t.+" + basePath + "stack_test.go",
+			"\t.*" + basePath + "stack_test.go",
 	}, {
 		0,
 		"%s",
@@ -80,7 +80,7 @@ func TestFrameFormat(t *testing.T) {
 		initpc,
 		"%+v",
 		packageName + ".init\n" +
-			"\t.+" + basePath + "stack_test.go:9",
+			"\t.*" + basePath + "stack_test.go:9",
 	}, {
 		0,
 		"%v",
@@ -120,24 +120,24 @@ func TestStackTrace(t *testing.T) {
 	}{{
 		New("ooh"), []string{
 			packageName + ".TestStackTrace\n" +
-				"\t.+" + basePath + "stack_test.go:121",
+				"\t.*" + basePath + "stack_test.go:121",
 		},
 	}, {
 		Wrap(New("ooh"), "ahh"), []string{
 			packageName + ".TestStackTrace\n" +
-				"\t.+" + basePath + "stack_test.go:126", // this is the stack of Wrap, not New
+				"\t.*" + basePath + "stack_test.go:126", // this is the stack of Wrap, not New
 		},
 	}, {
 		Cause(Wrap(New("ooh"), "ahh")), []string{
 			packageName + ".TestStackTrace\n" +
-				"\t.+" + basePath + "stack_test.go:131", // this is the stack of New
+				"\t.*" + basePath + "stack_test.go:131", // this is the stack of New
 		},
 	}, {
 		func() error { return New("ooh") }(), []string{
 			packageName + `.TestStackTrace.func1` +
-				"\n\t.+" + basePath + "stack_test.go:136", // this is the stack of New
+				"\n\t.*" + basePath + "stack_test.go:136", // this is the stack of New
 			packageName + ".TestStackTrace\n" +
-				"\t.+" + basePath + "stack_test.go:136", // this is the stack of New's caller
+				"\t.*" + basePath + "stack_test.go:136", // this is the stack of New's caller
 		},
 	}, {
 		Cause(func() error {
@@ -146,11 +146,11 @@ func TestStackTrace(t *testing.T) {
 			}()
 		}()), []string{
 			packageName + `.TestStackTrace.func2.1` +
-				"\n\t.+" + basePath + "stack_test.go:145", // this is the stack of Errorf
+				"\n\t.*" + basePath + "stack_test.go:145", // this is the stack of Errorf
 			packageName + `.TestStackTrace.func2` +
-				"\n\t.+" + basePath + "stack_test.go:146", // this is the stack of Errorf's caller
+				"\n\t.*" + basePath + "stack_test.go:146", // this is the stack of Errorf's caller
 			packageName + ".TestStackTrace\n" +
-				"\t.+" + basePath + "stack_test.go:147", // this is the stack of Errorf's caller's caller
+				"\t.*" + basePath + "stack_test.go:147", // this is the stack of Errorf's caller's caller
 		},
 	}}
 	for i, tt := range tests {
@@ -226,9 +226,9 @@ func TestStackTraceFormat(t *testing.T) {
 		"%+v",
 		"\n" +
 			packageName + ".stackTrace\n" +
-			"\t.+" + basePath + "stack_test.go:174\n" +
+			"\t.*" + basePath + "stack_test.go:174\n" +
 			packageName + ".TestStackTraceFormat\n" +
-			"\t.+" + basePath + "stack_test.go:225",
+			"\t.*" + basePath + "stack_test.go:225",
 	}, {
 		stackTrace()[:2],
 		"%#v",
