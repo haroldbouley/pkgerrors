@@ -32,8 +32,8 @@ func TestFrameFormat(t *testing.T) {
 	}, {
 		initpc,
 		"%+s",
-		"github.com/haroldbouley/pkgerrors.init\n" +
-			"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go",
+		packageName + ".init\n" +
+			"\t.+" + basePath + "stack_test.go",
 	}, {
 		0,
 		"%s",
@@ -79,8 +79,8 @@ func TestFrameFormat(t *testing.T) {
 	}, {
 		initpc,
 		"%+v",
-		"github.com/haroldbouley/pkgerrors.init\n" +
-			"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:9",
+		packageName + ".init\n" +
+			"\t.+" + basePath + "stack_test.go:9",
 	}, {
 		0,
 		"%v",
@@ -119,25 +119,25 @@ func TestStackTrace(t *testing.T) {
 		want []string
 	}{{
 		New("ooh"), []string{
-			"github.com/haroldbouley/pkgerrors.TestStackTrace\n" +
-				"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:121",
+			packageName + ".TestStackTrace\n" +
+				"\t.+" + basePath + "stack_test.go:121",
 		},
 	}, {
 		Wrap(New("ooh"), "ahh"), []string{
-			"github.com/haroldbouley/pkgerrors.TestStackTrace\n" +
-				"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:126", // this is the stack of Wrap, not New
+			packageName + ".TestStackTrace\n" +
+				"\t.+" + basePath + "stack_test.go:126", // this is the stack of Wrap, not New
 		},
 	}, {
 		Cause(Wrap(New("ooh"), "ahh")), []string{
-			"github.com/haroldbouley/pkgerrors.TestStackTrace\n" +
-				"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:131", // this is the stack of New
+			packageName + ".TestStackTrace\n" +
+				"\t.+" + basePath + "stack_test.go:131", // this is the stack of New
 		},
 	}, {
 		func() error { return New("ooh") }(), []string{
-			`github.com/haroldbouley/pkgerrors.TestStackTrace.func1` +
-				"\n\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:136", // this is the stack of New
-			"github.com/haroldbouley/pkgerrors.TestStackTrace\n" +
-				"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:136", // this is the stack of New's caller
+			packageName + `.TestStackTrace.func1` +
+				"\n\t.+" + basePath + "stack_test.go:136", // this is the stack of New
+			packageName + ".TestStackTrace\n" +
+				"\t.+" + basePath + "stack_test.go:136", // this is the stack of New's caller
 		},
 	}, {
 		Cause(func() error {
@@ -145,12 +145,12 @@ func TestStackTrace(t *testing.T) {
 				return Errorf("hello %s", fmt.Sprintf("world: %s", "ooh"))
 			}()
 		}()), []string{
-			`github.com/haroldbouley/pkgerrors.TestStackTrace.func2.1` +
-				"\n\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:145", // this is the stack of Errorf
-			`github.com/haroldbouley/pkgerrors.TestStackTrace.func2` +
-				"\n\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:146", // this is the stack of Errorf's caller
-			"github.com/haroldbouley/pkgerrors.TestStackTrace\n" +
-				"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:147", // this is the stack of Errorf's caller's caller
+			packageName + `.TestStackTrace.func2.1` +
+				"\n\t.+" + basePath + "stack_test.go:145", // this is the stack of Errorf
+			packageName + `.TestStackTrace.func2` +
+				"\n\t.+" + basePath + "stack_test.go:146", // this is the stack of Errorf's caller
+			packageName + ".TestStackTrace\n" +
+				"\t.+" + basePath + "stack_test.go:147", // this is the stack of Errorf's caller's caller
 		},
 	}}
 	for i, tt := range tests {
@@ -225,10 +225,10 @@ func TestStackTraceFormat(t *testing.T) {
 		stackTrace()[:2],
 		"%+v",
 		"\n" +
-			"github.com/haroldbouley/pkgerrors.stackTrace\n" +
-			"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:174\n" +
-			"github.com/haroldbouley/pkgerrors.TestStackTraceFormat\n" +
-			"\t.+/github.com/haroldbouley/pkgerrors/stack_test.go:225",
+			packageName + ".stackTrace\n" +
+			"\t.+" + basePath + "stack_test.go:174\n" +
+			packageName + ".TestStackTraceFormat\n" +
+			"\t.+" + basePath + "stack_test.go:225",
 	}, {
 		stackTrace()[:2],
 		"%#v",
