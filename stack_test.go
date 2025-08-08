@@ -145,7 +145,7 @@ func TestStackTrace(t *testing.T) {
 				return Errorf("hello %s", fmt.Sprintf("world: %s", "ooh"))
 			}()
 		}()), []string{
-			packageName + `.TestStackTrace.func2.1` +
+			packageName + `.TestStackTrace.TestStackTrace.func2.func3` +
 				"\n\t.*" + basePath + "stack_test.go:145", // this is the stack of Errorf
 			packageName + `.TestStackTrace.func2` +
 				"\n\t.*" + basePath + "stack_test.go:146", // this is the stack of Errorf's caller
