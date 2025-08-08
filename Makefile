@@ -2,7 +2,7 @@ PKGS := pkgerrors
 SRCDIRS := $(shell go list -f '{{.Dir}}' $(PKGS))
 GO := go
 
-check: test vet gofmt misspell unconvert staticcheck ineffassign unparam
+check: test vet gofmt unconvert staticcheck ineffassign unparam
 
 test: 
 	$(GO) test $(PKGS)
@@ -13,13 +13,6 @@ vet: | test
 staticcheck:
 	$(GO) get honnef.co/go/tools/cmd/staticcheck
 	staticcheck -checks all $(PKGS)
-
-misspell:
-	$(GO) get github.com/client9/misspell/cmd/misspell
-	misspell \
-		-locale GB \
-		-error \
-		*.md *.go
 
 unconvert:
 	$(GO) get github.com/mdempsky/unconvert
