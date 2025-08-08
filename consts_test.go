@@ -1,6 +1,6 @@
 package errors
 
 const (
-	packageName = "pkgerrors"
+	packageName = "github.com/haroldbouley/pkgerrors"
 	basePath    = "/github.com/haroldbouley/pkgerrors/"
 )
