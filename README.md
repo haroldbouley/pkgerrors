@@ -8,7 +8,7 @@ Package pkgerrors provides simple error handling primitives. It is originally fo
 
 ## Roadmap / Contributing
 
-Although I'm open to new developments, the package as is suit my current needs and I don't plan on updating it, unless something is breaking in upcoming Go releases.
+Although I'm not 100% closed to new developments and open to ideas, the package as is suit my current needs and I don't plan on updating it, unless something is breaking in upcoming Go releases.
 
 That being said, I'm considering removing the Wrap functions as well as the WithMessage functions, as I assume they aren't needed since Go 1.13; the actual value of the package is to print stack traces, everything else should be done with the std errors package.
 
