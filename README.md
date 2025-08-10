@@ -6,6 +6,18 @@ Package pkgerrors provides simple error handling primitives. It is originally fo
 
 `go get github.com/haroldbouley/pkgerrors`
 
+## Roadmap / Contributing
+
+Although I'm open to new developments, the package as is suit my current needs and I don't plan on updating it, unless something is breaking in upcoming Go releases.
+
+That being said, I'm considering removing the Wrap functions as well as the WithMessage functions, as I assume they aren't needed since Go 1.13; the actual value of the package is to print stack traces, everything else should be done with the std errors package.
+
+If you have opinions about what this package should or should not be, feel free to drop an issue.
+
+# Usage
+
+The following is copied from the original pkg/errors package:
+
 The traditional error handling idiom in Go is roughly akin to
 ```go
 if err != nil {
@@ -41,21 +53,8 @@ default:
 }
 ```
 
-[Read the package documentation for more information](https://godoc.org/github.com/pkg/errors).
+[Read the package documentation for more information](https://godoc.org/github.com/haroldbouley/pkgerrors).
 
-## Roadmap
-
-With the upcoming [Go2 error proposals](https://go.googlesource.com/proposal/+/master/design/go2draft.md) this package is moving into maintenance mode. The roadmap for a 1.0 release is as follows:
-
-- 0.9. Remove pre Go 1.9 and Go 1.10 support, address outstanding pull requests (if possible)
-- 1.0. Final release.
-
-## Contributing
-
-Because of the Go2 errors changes, this package is not accepting proposals for new functionality. With that said, we welcome pull requests, bug fixes and issue reports. 
-
-Before sending a PR, please discuss your change by raising an issue.
-
-## License
+# License
 
 BSD-2-Clause
